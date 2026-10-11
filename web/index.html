@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Truth_Rail: Is this forward true?</title>
+<meta name="description" content="Check forwarded messages, screenshots, voice notes, PDFs and links against trusted sources. Free, in English, Hindi and Marathi.">
+<meta name="theme-color" content="#3c3489">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/static/icon-192.png">
+<style>
+  :root{
+    --bg:#faf9f5; --bg2:#f2f0fa; --fg:#25242a; --muted:#66656d; --card:#ffffff; --line:#e3e1d8; --line2:#d3d0c6;
+    --accent:#3c3489; --accent-fg:#ffffff; --accent-soft:#eeedfe; --teal:#0f6e56;
+    --ok:#12805f; --bad:#c9441c; --old:#a8650d; --part:#2b72bd; --unk:#6f6e68;
+    --ok-bg:#e6f6f0; --bad-bg:#fdeee8; --old-bg:#fbf1df; --part-bg:#e7f0fb; --unk-bg:#efeeea;
+    --warn-bg:#fff4e0; --warn-fg:#6b4000; --warn-line:#f0cf9a; --err-bg:#fdecea; --err-fg:#8a1f11; --err-line:#f1b5ac;
+    --wa:#128c4a; --shadow:0 1px 2px rgba(20,18,50,.05),0 10px 30px rgba(60,52,137,.10); --radius:18px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141318; --bg2:#1b1a24; --fg:#ecebe6; --muted:#a6a49c; --card:#201f26; --line:#34333c; --line2:#47454f;
+      --accent:#b0aaf7; --accent-fg:#16151c; --accent-soft:#2a2845; --teal:#5dcaa5;
+      --ok:#4cc79d; --bad:#f08460; --old:#e0a64a; --part:#6fb0f0; --unk:#a6a49c;
+      --ok-bg:#16322a; --bad-bg:#3a211a; --old-bg:#372b14; --part-bg:#17293d; --unk-bg:#2a2a2d;
+      --warn-bg:#3a2d12; --warn-fg:#f5d79b; --warn-line:#6b5420; --err-bg:#3a1b17; --err-fg:#f7b4a8; --err-line:#6a2e26;
+      --wa:#25b865; --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141318; --bg2:#1b1a24; --fg:#ecebe6; --muted:#a6a49c; --card:#201f26; --line:#34333c; --line2:#47454f;
+    --accent:#b0aaf7; --accent-fg:#16151c; --accent-soft:#2a2845; --teal:#5dcaa5;
+    --ok:#4cc79d; --bad:#f08460; --old:#e0a64a; --part:#6fb0f0; --unk:#a6a49c;
+    --ok-bg:#16322a; --bad-bg:#3a211a; --old-bg:#372b14; --part-bg:#17293d; --unk-bg:#2a2a2d;
+    --warn-bg:#3a2d12; --warn-fg:#f5d79b; --warn-line:#6b5420; --err-bg:#3a1b17; --err-fg:#f7b4a8; --err-line:#6a2e26;
+    --wa:#25b865; --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html{font-size:100%;scroll-behavior:smooth;scroll-padding-top:76px}
+  body{margin:0;background:var(--bg);color:var(--fg);-webkit-text-size-adjust:100%;line-height:1.55;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Nirmala UI",sans-serif}
+  h1,h2,h3,p{margin-top:0}
+  a{color:var(--accent)}
+  button,input,textarea{font:inherit;color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 20px}
+  .hidden{display:none !important}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .skip{position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--accent-fg);padding:10px 14px;border-radius:10px;z-index:50;text-decoration:none}
+  .skip:focus{top:10px}
+  .i{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+  .i.fill{fill:currentColor;stroke:none}
+
+  /* ---------- header ---------- */
+  .notice{background:var(--warn-bg);color:var(--warn-fg);border-bottom:1px solid var(--warn-line);padding:10px 0;font-size:.92rem}
+  header.site{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
+    backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0)}
+  .bar{display:flex;align-items:center;gap:12px;min-height:64px}
+  .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;letter-spacing:-.01em;color:var(--accent);text-decoration:none}
+  .brand img{width:34px;height:34px;border-radius:9px}
+  .nav{display:none;gap:4px;margin-left:18px}
+  .nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:600;font-size:.95rem}
+  .nav a:hover{background:var(--accent-soft);color:var(--accent)}
+  .grow{flex:1}
+  .seg{display:inline-flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--card)}
+  .seg button{border:0;background:transparent;padding:0 12px;min-height:38px;font-size:.92rem;font-weight:600;color:var(--muted)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+  .icon-btn{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:999px;border:1px solid var(--line2);background:var(--card);color:var(--fg)}
+  .icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .menu-wrap{position:relative}
+  .menu{position:absolute;right:0;top:50px;width:min(300px,86vw);background:var(--card);border:1px solid var(--line2);border-radius:16px;box-shadow:var(--shadow);padding:14px;z-index:30}
+  .menu h4{margin:0 0 8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .menu .group{display:flex;gap:6px;margin-bottom:14px}
+  .menu .group button{flex:1;min-height:42px;border:1px solid var(--line2);background:var(--bg);border-radius:10px;font-weight:600}
+  .menu .group button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 20px;border-radius:14px;border:1px solid transparent;
+    font-weight:700;text-decoration:none;font-size:1rem;background:var(--accent);color:var(--accent-fg)}
+  .btn:hover{filter:brightness(1.07)}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .btn.wa{background:var(--wa);color:#fff}
+  .btn.ghost{background:var(--card);color:var(--fg);border-color:var(--line2);font-weight:600}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent);filter:none}
+  .btn.sm{min-height:42px;padding:0 14px;font-size:.95rem;border-radius:12px}
+  .btn.block{width:100%;min-height:54px;font-size:1.08rem}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;background:var(--card);padding:0 12px;min-height:36px;font-size:.88rem}
+
+  /* ---------- hero ---------- */
+  .hero{padding:28px 0 8px;background:radial-gradient(900px 340px at 12% -10%,var(--bg2),transparent 70%)}
+  .hero .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;align-items:start}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:6px 14px;font-weight:700;font-size:.85rem;margin-bottom:14px}
+  h1{font-size:clamp(1.9rem,6.4vw,3.1rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:12px;font-weight:800}
+  .lead{color:var(--muted);font-size:1.08rem;max-width:36em;margin-bottom:18px}
+  .trust{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:10px}
+  .trust li{display:flex;gap:10px;align-items:center;font-weight:600}
+  .trust .badge{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);flex:none}
+  .sample{display:none}
+  .trust-chips{margin-top:14px}
+  .hero-copy .trust{display:none}
+  .hero .lead{margin-bottom:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .checker{padding:18px}
+  .checker h2{font-size:1.15rem;margin:0 0 12px}
+  .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:4px;margin-bottom:14px}
+  .tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:54px;padding:6px 2px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:600;font-size:.82rem;line-height:1.2;text-align:center}
+  .tabs button .i{width:1.35em;height:1.35em}
+  .tabs button[aria-selected="true"]{background:var(--card);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  textarea{width:100%;min-height:150px;border:1px solid var(--line2);border-radius:14px;padding:14px;background:var(--bg);resize:vertical;font-size:1.04rem;line-height:1.5}
+  textarea:focus{border-color:var(--accent)}
+  .drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:170px;padding:20px;text-align:center;border:2px dashed var(--line2);border-radius:14px;background:var(--bg);color:var(--muted)}
+  .drop .big{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+  .drop .big .i{width:26px;height:26px}
+  .drop.over,.checker.over{border-color:var(--accent);background:var(--accent-soft)}
+  .picked{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line2);border-radius:14px;background:var(--bg)}
+  .picked img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+  .picked .fileic{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+  .picked .meta{flex:1;min-width:0}
+  .picked .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .picked .meta small{color:var(--muted)}
+  .rm{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:var(--card)}
+  .voice{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 10px;border:1px solid var(--line2);border-radius:14px;background:var(--bg);text-align:center;min-height:170px;justify-content:center}
+  .mic{position:relative;width:78px;height:78px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center}
+  .mic .i{width:34px;height:34px}
+  .mic.on{background:var(--bad);color:#fff}
+  .mic.on::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--bad);opacity:.5;animation:ring 1.2s ease-out infinite}
+  @keyframes ring{from{transform:scale(.85);opacity:.7}to{transform:scale(1.2);opacity:0}}
+  .bars{display:flex;gap:4px;height:22px;align-items:center}
+  .bars span{width:4px;border-radius:2px;background:var(--bad);animation:bar 0.9s ease-in-out infinite}
+  .bars span:nth-child(2n){animation-delay:.2s}.bars span:nth-child(3n){animation-delay:.4s}
+  @keyframes bar{0%,100%{height:5px}50%{height:22px}}
+  .timer{font-variant-numeric:tabular-nums;font-weight:700}
+  .voice audio{width:100%;max-width:340px}
+  .hint{color:var(--muted);font-size:.9rem}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .examples{margin-top:14px}
+  .examples .hint{margin-right:2px}
+  .go{margin-top:14px}
+  .after{margin:10px 0 0;text-align:center}
+
+  /* ---------- result ---------- */
+  #result{margin-top:18px;scroll-margin-top:84px}
+  #result:empty{display:none}
+  .banner{display:flex;gap:14px;align-items:center;padding:18px;border-radius:var(--radius);border:1px solid;outline:none}
+  .banner .ring{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;flex:none;color:#fff}
+  .banner .ring .i{width:32px;height:32px}
+  .banner h2{margin:0;font-size:1.3rem;line-height:1.25}
+  .banner p{margin:2px 0 0;font-weight:600;font-size:.95rem}
+  .b-Verified{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)} .b-Verified .ring{background:var(--ok)}
+  .b-False{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)} .b-False .ring{background:var(--bad)}
+  .b-Outdated{background:var(--old-bg);border-color:var(--old);color:var(--old)} .b-Outdated .ring{background:var(--old)}
+  .b-Partly{background:var(--part-bg);border-color:var(--part);color:var(--part)} .b-Partly .ring{background:var(--part)}
+  .b-Cannot{background:var(--unk-bg);border-color:var(--unk);color:var(--unk)} .b-Cannot .ring{background:var(--unk)}
+  .banner h2{color:var(--fg)}
+  .claim{margin-top:12px;padding:16px;border-left:6px solid var(--unk)}
+  .c-Verified{border-left-color:var(--ok)}.c-False{border-left-color:var(--bad)}.c-Outdated{border-left-color:var(--old)}.c-Partly{border-left-color:var(--part)}.c-Cannot{border-left-color:var(--unk)}
+  .claim .lab{display:flex;align-items:center;gap:8px;font-weight:800;margin:0 0 6px}
+  .claim .lab.t-Verified{color:var(--ok)}.claim .lab.t-False{color:var(--bad)}.claim .lab.t-Outdated{color:var(--old)}.claim .lab.t-Partly{color:var(--part)}.claim .lab.t-Cannot{color:var(--unk)}
+  .claim .q{color:var(--muted);margin:0 0 10px;font-size:.95rem;overflow-wrap:anywhere}
+  .claim .why{margin:0 0 12px;font-size:1.06rem;overflow-wrap:anywhere}
+  .srcs{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+  .src{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line2);border-radius:12px;text-decoration:none;color:var(--accent);font-weight:600;min-height:46px;overflow-wrap:anywhere}
+  .src:hover{background:var(--accent-soft)}
+  .src span{flex:1;min-width:0}
+  .warn,.err{display:flex;gap:12px;margin-top:12px;padding:14px;border-radius:14px;border:1px solid}
+  .warn{background:var(--warn-bg);color:var(--warn-fg);border-color:var(--warn-line)}
+  .err{background:var(--err-bg);color:var(--err-fg);border-color:var(--err-line)}
+  .warn .i,.err .i{margin-top:2px;width:1.4em;height:1.4em}
+  .err details{margin-top:8px;font-size:.85rem}
+  .err pre{white-space:pre-wrap;word-break:break-word;margin:6px 0 0;font:inherit;opacity:.9}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .fb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:.95rem}
+  .meta-line{color:var(--muted);font-size:.85rem;margin:10px 0 0}
+  .progress{display:grid;gap:12px;padding:20px}
+  .progress div{display:flex;align-items:center;gap:12px;color:var(--muted)}
+  .progress .on{color:var(--fg);font-weight:700}
+  .progress .done{color:var(--ok)}
+  .spin{width:20px;height:20px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--accent);animation:spin .8s linear infinite;flex:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .skel{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--line),var(--bg2),var(--line));background-size:200% 100%;animation:sh 1.4s linear infinite}
+  @keyframes sh{to{background-position:-200% 0}}
+
+  /* ---------- sections ---------- */
+  section.sec{padding:44px 0 6px}
+  .sec h2{font-size:clamp(1.45rem,4.4vw,2rem);letter-spacing:-.02em;margin-bottom:6px}
+  .sec .sub{color:var(--muted);margin-bottom:22px;max-width:40em}
+  .strip{margin-top:30px;padding:16px 20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
+  .strip h3{margin:0 0 10px;font-size:.88rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{padding:6px 12px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);font-weight:700;font-size:.88rem}
+  .steps{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+  .step{padding:20px}
+  .step .n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--accent-soft);color:var(--accent);margin-bottom:12px}
+  .step .n .i{width:24px;height:24px}
+  .step h3{margin:0 0 4px;font-size:1.1rem}
+  .step p{margin:0;color:var(--muted)}
+  .answers{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  .ans{padding:16px;border-top:5px solid var(--unk)}
+  .ans h3{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:1.02rem}
+  .ans p{margin:0;color:var(--muted);font-size:.95rem}
+  .wa-sec{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding:24px;align-items:center}
+  .wa-sec ol{margin:12px 0 18px;padding-left:1.2em;color:var(--muted)}
+  .wa-sec li{margin:4px 0}
+  .qrbox{display:flex;flex-direction:column;align-items:center;gap:10px;justify-self:center}
+  .qrbox img{width:176px;height:176px;background:#fff;padding:8px;border-radius:16px;border:1px solid var(--line)}
+  .hist{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+  .hist button{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);min-height:54px}
+  .hist .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hist small{color:var(--muted)}
+  .hist .i{width:1.4em;height:1.4em}
+  .faq details{border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:10px;padding:0 16px}
+  .faq summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;font-weight:700;cursor:pointer;list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .i{transition:transform .2s}
+  .faq details[open] summary .i{transform:rotate(180deg)}
+  .faq details p{margin:0 0 16px;color:var(--muted)}
+  footer.site{margin-top:50px;border-top:1px solid var(--line);background:var(--card);padding:26px 0 calc(34px + env(safe-area-inset-bottom,0));color:var(--muted);font-size:.92rem}
+  footer .cols{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+  footer .brand{font-size:1.05rem}
+  footer p{margin:0 0 6px}
+
+  /* ---------- tablet and up ---------- */
+  @media (min-width:640px){
+    .answers{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .tabs button{flex-direction:row;gap:8px;font-size:.92rem}
+    .tabs button .i{width:1.25em;height:1.25em}
+    .wrap{padding:0 28px}
+  }
+  @media (min-width:800px){
+    .steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .wa-sec{grid-template-columns:minmax(0,1fr) auto;padding:32px 36px}
+    footer .cols{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+  }
+  @media (min-width:920px){ .nav{display:flex} }
+  @media (min-width:1020px){
+    .hero{padding:48px 0 14px}
+    .hero .grid{grid-template-columns:minmax(0,1fr) minmax(0,540px);gap:56px}
+    .hero-copy{padding-top:12px;position:sticky;top:92px}
+    .hero-copy .trust{display:grid}
+    .trust-chips{display:none}
+    .hero .lead{margin-bottom:18px}
+    .sample{display:block;padding:18px;margin-top:6px;max-width:470px}
+    .checker{padding:24px}
+    .answers{grid-template-columns:repeat(5,minmax(0,1fr))}
+  }
+  @media (max-width:420px){
+    .tabs{gap:2px}
+    .tabs button{font-size:.74rem;padding:6px 1px}
+    .wrap{padding:0 16px}
+    .brand span{font-size:1.08rem}
+    .seg button{padding:0 9px}
+    .bar{gap:8px}
+    .btn.hide-xs{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important;scroll-behavior:auto !important} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+    <symbol id="i-thumb-up" viewBox="0 0 24 24"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></symbol>
+    <symbol id="i-thumb-down" viewBox="0 0 24 24"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M9.94 14.06 8 20l-1.94-5.94L0 12l6.06-2.06L8 4l1.94 5.94L16 12zM19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8z" transform="translate(1 0)"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#checker" data-i="skip">Skip to the checker</a>
+<div class="notice hidden" id="notice"><div class="wrap">Setup needed: this server has no AI key yet. Add GEMINI_API_KEYS to the .env file, then restart. Run "python cli.py --selftest" to see what is wrong.</div></div>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Truth_Rail home"><img src="/static/logo.svg" alt=""><span>Truth_Rail</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#checker" data-i="navCheck"></a><a href="#how" data-i="navHow"></a><a href="#answers" data-i="navAnswers"></a><a href="#whatsapp" data-i="navWa"></a><a href="#faq" data-i="navFaq"></a>
+    </nav>
+    <span class="grow"></span>
+    <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="hi" aria-pressed="false" lang="hi">हिं</button>
+      <button type="button" data-lang="mr" aria-pressed="false" lang="mr">मरा</button>
+    </div>
+    <div class="menu-wrap">
+      <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Settings"><svg class="i"><use href="#i-sliders"/></svg></button>
+      <div class="menu hidden" id="menu" role="dialog" aria-label="Settings">
+        <h4 data-i="setText"></h4>
+        <div class="group" id="sizeGroup"><button type="button" data-size="0" aria-pressed="true">A</button><button type="button" data-size="1" aria-pressed="false" style="font-size:1.1em">A</button><button type="button" data-size="2" aria-pressed="false" style="font-size:1.3em">A</button></div>
+        <h4 data-i="setTheme"></h4>
+        <div class="group" id="themeGroup"><button type="button" data-theme-set="auto" aria-pressed="true" data-i="themeAuto"></button><button type="button" data-theme-set="light" aria-pressed="false" data-i="themeLight"></button><button type="button" data-theme-set="dark" aria-pressed="false" data-i="themeDark"></button></div>
+        <button class="btn ghost sm block hidden" id="installBtn" type="button" style="min-height:44px;font-size:.95rem"><svg class="i"><use href="#i-download"/></svg><span data-i="install"></span></button>
+      </div>
+    </div>
+    <a class="btn wa sm hide-xs hidden" id="navWa" href="#" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-chat"/></svg><span data-i="waBtnText"></span></a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><svg class="i"><use href="#i-sparkle"/></svg><span data-i="eyebrow"></span></span>
+        <h1 id="h1" data-i="heroTitle"></h1>
+        <p class="lead" data-i="heroSub"></p>
+        <ul class="trust">
+          <li><span class="badge"><svg class="i"><use href="#i-shield"/></svg></span><span data-i="trust1"></span></li>
+          <li><span class="badge"><svg class="i"><use href="#i-link"/></svg></span><span data-i="trust2"></span></li>
+          <li><span class="badge"><svg class="i"><use href="#i-lock"/></svg></span><span data-i="trust3"></span></li>
+        </ul>
+        <div class="card sample" aria-hidden="true">
+          <div class="row" style="justify-content:space-between;margin-bottom:10px"><span class="chip" data-i="sampleTag"></span><span class="chip" style="color:var(--bad);border-color:var(--bad)"><svg class="i"><use href="#i-x-circle"/></svg><b>False</b></span></div>
+          <p style="margin:0 0 6px;font-weight:700" data-i="sampleClaim"></p>
+          <p style="margin:0;color:var(--muted)" data-i="sampleWhy"></p>
+        </div>
+      </div>
+
+      <div class="hero-tool">
+        <div class="card checker" id="checker">
+          <h2 data-i="checkTitle"></h2>
+          <div class="tabs" role="tablist" aria-label="Input type" id="tabs">
+            <button role="tab" type="button" id="tab-text" data-mode="text" aria-controls="panel-text" aria-selected="true"><svg class="i"><use href="#i-message"/></svg><span data-i="tabText"></span></button>
+            <button role="tab" type="button" id="tab-image" data-mode="image" aria-controls="panel-image" aria-selected="false" tabindex="-1"><svg class="i"><use href="#i-image"/></svg><span data-i="tabImage"></span></button>
+            <button role="tab" type="button" id="tab-voice" data-mode="voice" aria-controls="panel-voice" aria-selected="false" tabindex="-1"><svg class="i"><use href="#i-mic"/></svg><span data-i="tabVoice"></span></button>
+            <button role="tab" type="button" id="tab-pdf" data-mode="pdf" aria-controls="panel-pdf" aria-selected="false" tabindex="-1"><svg class="i"><use href="#i-file"/></svg><span data-i="tabPdf"></span></button>
+          </div>
+
+          <div role="tabpanel" id="panel-text" aria-labelledby="tab-text">
+            <label for="text" class="sr" data-i="placeholder"></label>
+            <textarea id="text" autocomplete="off" spellcheck="false"></textarea>
+          </div>
+          <div role="tabpanel" id="panel-image" aria-labelledby="tab-image" class="hidden"></div>
+          <div role="tabpanel" id="panel-voice" aria-labelledby="tab-voice" class="hidden"></div>
+          <div role="tabpanel" id="panel-pdf" aria-labelledby="tab-pdf" class="hidden"></div>
+          <input type="file" id="fileImage" class="hidden" accept="image/png,image/jpeg,image/webp">
+          <input type="file" id="filePdf" class="hidden" accept=".pdf,.txt,application/pdf,text/plain">
+          <input type="file" id="fileAudio" class="hidden" accept="audio/*,.ogg,.opus,.m4a,.mp3,.wav">
+
+          <button class="btn block go" id="go" type="button"><svg class="i"><use href="#i-search"/></svg><span data-i="check"></span></button>
+          <p class="hint after" data-i="timeHint"></p>
+          <div class="row examples" id="examples"><span class="hint" data-i="tryIt"></span>
+            <button class="chip" type="button" data-ex="Drinking hot water with lemon cures cancer. Share with everyone!"><svg class="i"><use href="#i-message"/></svg><span data-i="ex1"></span></button>
+            <button class="chip" type="button" data-ex="Government is giving Rs 5000 to every family from tomorrow, click this link to register"><svg class="i"><use href="#i-message"/></svg><span data-i="ex2"></span></button>
+            <button class="chip" type="button" data-ex="Last date to link Aadhaar with PAN is 31 March 2023"><svg class="i"><use href="#i-message"/></svg><span data-i="ex3"></span></button>
+          </div>
+        </div>
+        <div id="result" tabindex="-1" aria-live="polite"></div>
+        <div class="row trust-chips">
+          <span class="chip"><svg class="i"><use href="#i-shield"/></svg><span data-i="trust1"></span></span>
+          <span class="chip"><svg class="i"><use href="#i-link"/></svg><span data-i="trust2"></span></span>
+          <span class="chip"><svg class="i"><use href="#i-lock"/></svg><span data-i="trust3"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="strip" aria-labelledby="stripT">
+      <h3 id="stripT" data-i="stripTitle"></h3>
+      <div class="pills"><span class="pill">WHO</span><span class="pill">PIB</span><span class="pill">ICMR</span><span class="pill">RBI</span><span class="pill">Reuters</span><span class="pill">BBC</span><span class="pill">AFP Fact Check</span><span class="pill">BOOM</span><span class="pill">Alt News</span><span class="pill">Factly</span><span class="pill">Newschecker</span><span class="pill">Vishvas News</span></div>
+    </div>
+  </div>
+
+  <section class="sec" id="how"><div class="wrap">
+    <h2 data-i="howTitle"></h2><p class="sub" data-i="howSub"></p>
+    <div class="steps">
+      <div class="card step"><span class="n"><svg class="i"><use href="#i-upload"/></svg></span><h3 data-i="how1t"></h3><p data-i="how1d"></p></div>
+      <div class="card step"><span class="n"><svg class="i"><use href="#i-search"/></svg></span><h3 data-i="how2t"></h3><p data-i="how2d"></p></div>
+      <div class="card step"><span class="n"><svg class="i"><use href="#i-shield"/></svg></span><h3 data-i="how3t"></h3><p data-i="how3d"></p></div>
+    </div>
+  </div></section>
+
+  <section class="sec" id="answers"><div class="wrap">
+    <h2 data-i="labelsTitle"></h2><p class="sub" data-i="labelsSub"></p>
+    <div class="answers" id="legend"></div>
+  </div></section>
+
+  <section class="sec" id="whatsapp"><div class="wrap">
+    <div class="card wa-sec">
+      <div>
+        <h2 data-i="waSecTitle"></h2>
+        <p class="sub" style="margin-bottom:0" data-i="waSecSub"></p>
+        <ol><li data-i="waS1"></li><li data-i="waS2"></li><li data-i="waS3"></li></ol>
+        <a class="btn wa hidden" id="waBtn" href="#" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-chat"/></svg><span data-i="waBtnText"></span></a>
+        <p class="hint hidden" id="waOff" data-i="waOff"></p>
+      </div>
+      <div class="qrbox hidden" id="qrBox"><img id="qr" alt="QR code to open Truth_Rail on WhatsApp" width="176" height="176"><span class="hint" data-i="qrHint"></span></div>
+    </div>
+  </div></section>
+
+  <section class="sec hidden" id="histSec"><div class="wrap">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <h2 style="margin:0;font-size:1.3rem" data-i="history"></h2>
+      <button class="btn ghost sm" type="button" id="clearHist"><svg class="i"><use href="#i-trash"/></svg><span data-i="clear"></span></button>
+    </div>
+    <div class="hist" id="hist"></div>
+  </div></section>
+
+  <section class="sec faq" id="faq"><div class="wrap">
+    <h2 data-i="faqTitle"></h2>
+    <div style="margin-top:18px">
+      <details><summary><span data-i="q1"></span><svg class="i"><use href="#i-chevron"/></svg></summary><p data-i="a1"></p></details>
+      <details><summary><span data-i="q2"></span><svg class="i"><use href="#i-chevron"/></svg></summary><p data-i="a2"></p></details>
+      <details><summary><span data-i="q3"></span><svg class="i"><use href="#i-chevron"/></svg></summary><p data-i="a3"></p></details>
+      <details><summary><span data-i="q4"></span><svg class="i"><use href="#i-chevron"/></svg></summary><p data-i="a4"></p></details>
+    </div>
+  </div></section>
+</main>
+
+<footer class="site">
+  <div class="wrap cols">
+    <div>
+      <a class="brand" href="/"><img src="/static/logo.svg" alt="" width="30" height="30"><span>Truth_Rail</span></a>
+      <p style="margin-top:10px" data-i="disclaimer"></p>
+    </div>
+    <div>
+      <p><a href="/privacy" data-i="privacy"></a><span id="counter"></span></p>
+      <p data-i="built"></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const LABELS = ["Verified","False","Outdated","Partly supported","Cannot be confirmed"];
+const KEY = {"Verified":"Verified","False":"False","Outdated":"Outdated","Partly supported":"Partly","Cannot be confirmed":"Cannot"};
+const LICON = {"Verified":"check-circle","False":"x-circle","Outdated":"clock","Partly supported":"alert","Cannot be confirmed":"help"};
+const COLOR = {Verified:"var(--ok)",False:"var(--bad)",Outdated:"var(--old)",Partly:"var(--part)",Cannot:"var(--unk)"};
+const LOCAL = {
+  hi:{"Verified":"सही पाया गया","False":"झूठ","Outdated":"पुराना, अब मान्य नहीं","Partly supported":"आंशिक रूप से सही","Cannot be confirmed":"पुष्टि नहीं हो सकी"},
+  mr:{"Verified":"खरे आढळले","False":"खोटे","Outdated":"जुने, आता वैध नाही","Partly supported":"अंशतः बरोबर","Cannot be confirmed":"पुष्टी होऊ शकली नाही"}
+};
+const FLAGS = {
+  en:{fake_urgency:"pushes you to act in a hurry",chain_forward_request:"asks you to forward it to many people",fake_authority:"may be using fake official branding",too_good_to_be_true:"offers something too good to be true",fear_appeal:"tries to scare you",suspicious_link:"contains a suspicious link"},
+  hi:{fake_urgency:"आपको जल्दबाज़ी में कदम उठाने के लिए उकसाता है",chain_forward_request:"आपसे इसे कई लोगों को फॉरवर्ड करने को कहता है",fake_authority:"नकली सरकारी या आधिकारिक पहचान इस्तेमाल कर सकता है",too_good_to_be_true:"ऐसा ऑफर देता है जो सच होने के लिए बहुत अच्छा लगता है",fear_appeal:"आपको डराने की कोशिश करता है",suspicious_link:"संदिग्ध लिंक है"},
+  mr:{fake_urgency:"तुम्हाला घाईघाईत निर्णय घ्यायला लावतो",chain_forward_request:"तुम्हाला तो अनेकांना फॉरवर्ड करायला सांगतो",fake_authority:"खोटी अधिकृत ओळख वापरत असू शकतो",too_good_to_be_true:"खरे वाटण्यासाठी खूप चांगली ऑफर देतो",fear_appeal:"तुम्हाला घाबरवण्याचा प्रयत्न करतो",suspicious_link:"संशयास्पद लिंक आहे"}
+};
+const T = {
+ en:{skip:"Skip to the checker",navCheck:"Check",navHow:"How it works",navAnswers:"Answers",navWa:"WhatsApp",navFaq:"FAQ",
+  setText:"Text size",setTheme:"Theme",themeAuto:"Auto",themeLight:"Light",themeDark:"Dark",install:"Install app",
+  eyebrow:"Free, no sign-up, in 3 languages",heroTitle:"Got a forward? Check it before you share.",
+  heroSub:"Paste a message or link, or add a screenshot, voice note or PDF. Truth_Rail checks it against trusted sources and explains the answer in simple words.",
+  trust1:"Trusted sources only",trust2:"Every answer shows its sources",trust3:"No account, no ads",
+  sampleTag:"Example answer",sampleClaim:"Hot lemon water cures cancer",sampleWhy:"No food or drink can cure cancer. Health experts and fact-checkers agree.",
+  checkTitle:"Check a forward",tabText:"Message",tabImage:"Screenshot",tabVoice:"Voice",tabPdf:"PDF",
+  placeholder:"Paste the forwarded message or link here...",check:"Check it",timeHint:"Usually takes 10 to 20 seconds",tryIt:"Try an example:",
+  ex1:"Lemon water",ex2:"Rs 5000 scheme",ex3:"Aadhaar deadline",
+  dzImage:"Drop a screenshot here, paste it, or choose a photo",dzPdf:"Drop a PDF here, or choose a file",choose:"Choose file",
+  voiceIdle:"Tap the microphone, then say or read the message",voiceRec:"Recording... tap to stop",voiceDone:"Recorded. Listen if you like, then press Check it.",
+  reRecord:"Record again",orUpload:"or upload an audio file",remove:"Remove",
+  step1:"Reading your message...",step2:"Searching trusted sources...",step3:"Deciding the verdict...",
+  sources:"Sources",cachedYes:"Answered from earlier checks",cachedNo:"Checked just now",
+  listen:"Listen",stopListen:"Stop",share:"Share on WhatsApp",copy:"Copy",copied:"Copied",checkAnother:"Check another",
+  helpful:"Was this helpful?",yes:"Yes",no:"No",thanks:"Thank you!",history:"Recent checks",clear:"Clear",
+  stripTitle:"Checked against trusted sources such as",
+  howTitle:"How it works",howSub:"Three steps, usually about fifteen seconds.",how1t:"Send it",how1d:"Paste the text or link, add a screenshot or PDF, or record the voice note.",how2t:"We check it",how2d:"Only trusted sources are used: WHO, PIB, government sites and fact-checkers.",how3t:"You decide",how3d:"See the verdict, the reason in simple words, and the sources to open.",
+  labelsTitle:"What the answers mean",labelsSub:"Every answer is one of these five. If nothing trustworthy is found, we say so instead of guessing.",
+  m_Verified:"Trusted sources confirm it.",m_False:"It was never true, or sources say the opposite.",m_Outdated:"It was true once, but has changed or expired.",m_Partly:"Some parts are right, some are wrong.",m_Cannot:"No trusted source found. This is not a yes or a no.",
+  v_Verified:"This looks true",v_False:"This is false",v_Outdated:"This was true earlier, but is out of date now",v_Partly:"This is only partly true",v_Cannot:"We could not confirm this",
+  waSecTitle:"Check forwards without leaving WhatsApp",waSecSub:"Send any forward to Truth_Rail in WhatsApp and get the answer in the same chat, with a voice reply for voice notes.",
+  waS1:"Scan the QR code or tap the button.",waS2:"Send your first message.",waS3:"Forward anything you are unsure about.",waBtnText:"Open WhatsApp",qrHint:"Scan with your phone camera",waOff:"WhatsApp is not connected on this server yet.",
+  faqTitle:"Questions people ask",
+  q1:"Is Truth_Rail free?",a1:"Yes. There is no account, no sign-up and no ads.",
+  q2:"Can it be wrong?",a2:"Yes. It is a guide, not a final authority. Always open the sources. When it cannot find a trusted source it says it could not confirm, instead of guessing.",
+  q3:"What do you keep?",a3:"Short summaries of the claims and their verdicts for a few hours, and an anonymous usage count. Your original message text is not stored. Please do not send private information. See the privacy page.",
+  q4:"What can I send?",a4:"Text, links, screenshots, voice notes and PDFs, in English, Hindi or Marathi.",
+  warn:"Be careful: this message",noClaim:"No factual claim found in this message.",
+  disclaimer:"Truth_Rail is a guide, not a final authority. Always open the sources.",privacy:"Privacy",counter:"forwards checked so far",built:"A student project for the Hack On Track hackathon.",
+  errNet:"Could not reach Truth_Rail. Check your internet and try again.",errRetry:"Try again",errRec:"Could not use the microphone. Allow microphone access, or type your message.",
+  errBig:"This file is too large (maximum 15 MB).",errType:"This file type is not supported. Use a photo, PDF, voice note or text.",errEmpty:"Add a message, link or file first.",
+  errServer:"Something went wrong. Please try again.",details:"Technical details"},
+ hi:{skip:"चेकर पर जाएँ",navCheck:"जाँचें",navHow:"कैसे काम करता है",navAnswers:"जवाब",navWa:"WhatsApp",navFaq:"सवाल",
+  setText:"अक्षर का आकार",setTheme:"थीम",themeAuto:"ऑटो",themeLight:"हल्का",themeDark:"गहरा",install:"ऐप इंस्टॉल करें",
+  eyebrow:"मुफ़्त, साइन-अप नहीं, 3 भाषाओं में",heroTitle:"कोई फॉरवर्ड आया है? शेयर करने से पहले जाँच लें।",
+  heroSub:"संदेश या लिंक पेस्ट करें, या स्क्रीनशॉट, वॉइस नोट या PDF जोड़ें। Truth_Rail भरोसेमंद स्रोतों से जाँचकर आसान भाषा में बताएगा।",
+  trust1:"सिर्फ़ भरोसेमंद स्रोत",trust2:"हर जवाब के साथ स्रोत",trust3:"न अकाउंट, न विज्ञापन",
+  sampleTag:"उदाहरण",sampleClaim:"नींबू पानी से कैंसर ठीक होता है",sampleWhy:"कोई खाना या पेय कैंसर ठीक नहीं कर सकता। स्वास्थ्य विशेषज्ञ और फैक्ट-चेकर सहमत हैं।",
+  checkTitle:"फॉरवर्ड जाँचें",tabText:"संदेश",tabImage:"स्क्रीनशॉट",tabVoice:"आवाज़",tabPdf:"PDF",
+  placeholder:"यहाँ फॉरवर्ड संदेश या लिंक पेस्ट करें...",check:"जाँचें",timeHint:"आमतौर पर 10 से 20 सेकंड लगते हैं",tryIt:"उदाहरण आज़माएँ:",
+  ex1:"नींबू पानी",ex2:"Rs 5000 योजना",ex3:"आधार की आखिरी तारीख",
+  dzImage:"स्क्रीनशॉट यहाँ डालें, पेस्ट करें, या फोटो चुनें",dzPdf:"PDF यहाँ डालें, या फ़ाइल चुनें",choose:"फ़ाइल चुनें",
+  voiceIdle:"माइक दबाएँ, फिर संदेश बोलें या पढ़ें",voiceRec:"रिकॉर्ड हो रहा है... रोकने के लिए दबाएँ",voiceDone:"रिकॉर्ड हो गया। चाहें तो सुन लें, फिर जाँचें दबाएँ।",
+  reRecord:"फिर से रिकॉर्ड करें",orUpload:"या ऑडियो फ़ाइल अपलोड करें",remove:"हटाएँ",
+  step1:"संदेश पढ़ रहा हूँ...",step2:"भरोसेमंद स्रोत खोज रहा हूँ...",step3:"नतीजा तय कर रहा हूँ...",
+  sources:"स्रोत",cachedYes:"पहले की जाँच से जवाब दिया गया",cachedNo:"अभी जाँचा गया",
+  listen:"सुनें",stopListen:"रोकें",share:"WhatsApp पर शेयर करें",copy:"कॉपी करें",copied:"कॉपी हो गया",checkAnother:"दूसरा जाँचें",
+  helpful:"क्या यह मददगार था?",yes:"हाँ",no:"नहीं",thanks:"धन्यवाद!",history:"हाल की जाँच",clear:"मिटाएँ",
+  stripTitle:"इन जैसे भरोसेमंद स्रोतों से जाँचा जाता है",
+  howTitle:"यह कैसे काम करता है",howSub:"तीन कदम, आमतौर पर करीब पंद्रह सेकंड।",how1t:"भेजें",how1d:"टेक्स्ट या लिंक पेस्ट करें, स्क्रीनशॉट या PDF जोड़ें, या वॉइस नोट रिकॉर्ड करें।",how2t:"हम जाँचते हैं",how2d:"सिर्फ़ भरोसेमंद स्रोत: WHO, PIB, सरकारी साइट और फैक्ट-चेकर।",how3t:"आप तय करें",how3d:"नतीजा, आसान भाषा में कारण और खोलने के लिए स्रोत देखें।",
+  labelsTitle:"जवाबों का मतलब",labelsSub:"हर जवाब इन पाँच में से एक होता है। कोई भरोसेमंद स्रोत न मिले तो हम अंदाज़ा नहीं लगाते, साफ़ बता देते हैं।",
+  m_Verified:"भरोसेमंद स्रोत इसकी पुष्टि करते हैं।",m_False:"यह कभी सच नहीं था, या स्रोत इसके उलट कहते हैं।",m_Outdated:"यह कभी सही था, पर अब बदल गया या खत्म हो चुका है।",m_Partly:"कुछ हिस्सा सही है, कुछ गलत।",m_Cannot:"कोई भरोसेमंद स्रोत नहीं मिला। यह न हाँ है, न ना।",
+  v_Verified:"यह सही लगता है",v_False:"यह झूठ है",v_Outdated:"यह पहले सही था, पर अब पुराना हो चुका है",v_Partly:"यह सिर्फ़ आंशिक रूप से सही है",v_Cannot:"हम इसकी पुष्टि नहीं कर पाए",
+  waSecTitle:"WhatsApp छोड़े बिना फॉरवर्ड जाँचें",waSecSub:"कोई भी फॉरवर्ड WhatsApp में Truth_Rail को भेजें और उसी चैट में जवाब पाएँ। वॉइस नोट पर आवाज़ में जवाब भी मिलता है।",
+  waS1:"QR कोड स्कैन करें या बटन दबाएँ।",waS2:"अपना पहला संदेश भेजें।",waS3:"जिस पर शक हो वह फॉरवर्ड करें।",waBtnText:"WhatsApp खोलें",qrHint:"फोन कैमरे से स्कैन करें",waOff:"इस सर्वर पर WhatsApp अभी जुड़ा नहीं है।",
+  faqTitle:"लोग क्या पूछते हैं",
+  q1:"क्या Truth_Rail मुफ़्त है?",a1:"हाँ। न अकाउंट चाहिए, न साइन-अप, न विज्ञापन।",
+  q2:"क्या यह गलत हो सकता है?",a2:"हाँ। यह एक मार्गदर्शक है, अंतिम प्रमाण नहीं। हमेशा स्रोत खोलकर देखें। भरोसेमंद स्रोत न मिलने पर यह अंदाज़ा लगाने के बजाय बताता है कि पुष्टि नहीं हो सकी।",
+  q3:"आप क्या सहेजते हैं?",a3:"दावों के छोटे सार और उनके नतीजे कुछ घंटों के लिए, और गुमनाम गिनती। आपके मूल संदेश का टेक्स्ट सहेजा नहीं जाता। कृपया निजी जानकारी न भेजें। गोपनीयता पेज देखें।",
+  q4:"मैं क्या भेज सकता हूँ?",a4:"टेक्स्ट, लिंक, स्क्रीनशॉट, वॉइस नोट और PDF, हिंदी, मराठी या अंग्रेज़ी में।",
+  warn:"सावधान: यह संदेश",noClaim:"इस संदेश में जाँचने लायक कोई तथ्य नहीं मिला।",
+  disclaimer:"Truth_Rail एक मार्गदर्शक है, अंतिम प्रमाण नहीं। हमेशा स्रोत खोलकर देखें।",privacy:"गोपनीयता",counter:"फॉरवर्ड अब तक जाँचे गए",built:"Hack On Track हैकथॉन के लिए एक छात्र प्रोजेक्ट।",
+  errNet:"Truth_Rail से जुड़ नहीं पाया। इंटरनेट देखकर फिर कोशिश करें।",errRetry:"फिर कोशिश करें",errRec:"माइक्रोफ़ोन इस्तेमाल नहीं हो सका। अनुमति दें, या संदेश टाइप करें।",
+  errBig:"फ़ाइल बहुत बड़ी है (अधिकतम 15 MB)।",errType:"यह फ़ाइल प्रकार समर्थित नहीं है। फोटो, PDF, वॉइस नोट या टेक्स्ट इस्तेमाल करें।",errEmpty:"पहले कोई संदेश, लिंक या फ़ाइल जोड़ें।",
+  errServer:"कुछ गड़बड़ हो गई। कृपया फिर कोशिश करें।",details:"तकनीकी जानकारी"},
+ mr:{skip:"तपासणीकडे जा",navCheck:"तपासा",navHow:"हे कसे चालते",navAnswers:"उत्तरे",navWa:"WhatsApp",navFaq:"प्रश्न",
+  setText:"अक्षराचा आकार",setTheme:"थीम",themeAuto:"ऑटो",themeLight:"हलका",themeDark:"गडद",install:"अ‍ॅप इन्स्टॉल करा",
+  eyebrow:"मोफत, साइन-अप नाही, 3 भाषांमध्ये",heroTitle:"फॉरवर्ड आला आहे? शेअर करण्यापूर्वी तपासा.",
+  heroSub:"मेसेज किंवा लिंक पेस्ट करा, किंवा स्क्रीनशॉट, व्हॉइस नोट किंवा PDF जोडा. Truth_Rail विश्वासार्ह स्रोतांवरून तपासून सोप्या भाषेत सांगेल.",
+  trust1:"फक्त विश्वासार्ह स्रोत",trust2:"प्रत्येक उत्तरासोबत स्रोत",trust3:"अकाउंट नाही, जाहिराती नाहीत",
+  sampleTag:"उदाहरण",sampleClaim:"लिंबू पाण्याने कर्करोग बरा होतो",sampleWhy:"कोणतेही अन्न किंवा पेय कर्करोग बरा करू शकत नाही. आरोग्य तज्ज्ञ आणि फॅक्ट-चेकर सहमत आहेत.",
+  checkTitle:"फॉरवर्ड तपासा",tabText:"मेसेज",tabImage:"स्क्रीनशॉट",tabVoice:"आवाज",tabPdf:"PDF",
+  placeholder:"फॉरवर्ड केलेला मेसेज किंवा लिंक इथे पेस्ट करा...",check:"तपासा",timeHint:"साधारणपणे 10 ते 20 सेकंद लागतात",tryIt:"उदाहरण वापरून पहा:",
+  ex1:"लिंबू पाणी",ex2:"Rs 5000 योजना",ex3:"आधारची अंतिम तारीख",
+  dzImage:"स्क्रीनशॉट इथे टाका, पेस्ट करा, किंवा फोटो निवडा",dzPdf:"PDF इथे टाका, किंवा फाइल निवडा",choose:"फाइल निवडा",
+  voiceIdle:"माइक दाबा, मग मेसेज बोला किंवा वाचा",voiceRec:"रेकॉर्डिंग सुरू आहे... थांबवण्यासाठी दाबा",voiceDone:"रेकॉर्ड झाले. हवे तर ऐका, मग तपासा दाबा.",
+  reRecord:"पुन्हा रेकॉर्ड करा",orUpload:"किंवा ऑडिओ फाइल अपलोड करा",remove:"काढा",
+  step1:"मेसेज वाचत आहे...",step2:"विश्वासार्ह स्रोत शोधत आहे...",step3:"निकाल ठरवत आहे...",
+  sources:"स्रोत",cachedYes:"आधीच्या तपासणीवरून उत्तर दिले",cachedNo:"आत्ताच तपासले",
+  listen:"ऐका",stopListen:"थांबवा",share:"WhatsApp वर शेअर करा",copy:"कॉपी करा",copied:"कॉपी झाले",checkAnother:"दुसरा तपासा",
+  helpful:"हे उपयुक्त होते का?",yes:"होय",no:"नाही",thanks:"धन्यवाद!",history:"अलीकडील तपासण्या",clear:"पुसा",
+  stripTitle:"यांसारख्या विश्वासार्ह स्रोतांवरून तपासले जाते",
+  howTitle:"हे कसे चालते",howSub:"तीन पायऱ्या, साधारणपणे सुमारे पंधरा सेकंद.",how1t:"पाठवा",how1d:"मजकूर किंवा लिंक पेस्ट करा, स्क्रीनशॉट किंवा PDF जोडा, किंवा व्हॉइस नोट रेकॉर्ड करा.",how2t:"आम्ही तपासतो",how2d:"फक्त विश्वासार्ह स्रोत: WHO, PIB, सरकारी साइट्स आणि फॅक्ट-चेकर्स.",how3t:"तुम्ही ठरवा",how3d:"निकाल, सोप्या भाषेत कारण आणि उघडण्यासाठी स्रोत पाहा.",
+  labelsTitle:"उत्तरांचा अर्थ",labelsSub:"प्रत्येक उत्तर या पाचांपैकी एक असते. विश्वासार्ह काही सापडले नाही तर आम्ही अंदाज करत नाही, तसे स्पष्ट सांगतो.",
+  m_Verified:"विश्वासार्ह स्रोत याची पुष्टी करतात.",m_False:"हे कधीच खरे नव्हते, किंवा स्रोत उलट सांगतात.",m_Outdated:"हे कधी खरे होते, पण आता बदलले किंवा संपले आहे.",m_Partly:"काही भाग बरोबर, काही चुकीचा.",m_Cannot:"विश्वासार्ह स्रोत सापडला नाही. हे होय नाही, नाहीही नाही.",
+  v_Verified:"हे खरे वाटते",v_False:"हे खोटे आहे",v_Outdated:"हे आधी खरे होते, पण आता जुने झाले आहे",v_Partly:"हे फक्त अंशतः खरे आहे",v_Cannot:"आम्ही याची पुष्टी करू शकलो नाही",
+  waSecTitle:"WhatsApp न सोडता फॉरवर्ड तपासा",waSecSub:"कोणताही फॉरवर्ड WhatsApp मध्ये Truth_Rail ला पाठवा आणि त्याच चॅटमध्ये उत्तर मिळवा. व्हॉइस नोटला आवाजातही उत्तर मिळते.",
+  waS1:"QR कोड स्कॅन करा किंवा बटण दाबा.",waS2:"तुमचा पहिला मेसेज पाठवा.",waS3:"ज्यावर शंका आहे तो फॉरवर्ड करा.",waBtnText:"WhatsApp उघडा",qrHint:"फोन कॅमेऱ्याने स्कॅन करा",waOff:"या सर्व्हरवर WhatsApp अजून जोडलेले नाही.",
+  faqTitle:"लोक काय विचारतात",
+  q1:"Truth_Rail मोफत आहे का?",a1:"होय. अकाउंट नाही, साइन-अप नाही, जाहिराती नाहीत.",
+  q2:"ते चुकू शकते का?",a2:"होय. हे मार्गदर्शक आहे, अंतिम पुरावा नाही. नेहमी स्रोत उघडून पाहा. विश्वासार्ह स्रोत न मिळाल्यास ते अंदाज करण्याऐवजी पुष्टी झाली नाही असे सांगते.",
+  q3:"तुम्ही काय साठवता?",a3:"दाव्यांचे छोटे सारांश आणि त्यांचे निकाल काही तासांसाठी, आणि निनावी मोजणी. तुमच्या मूळ मेसेजचा मजकूर साठवला जात नाही. कृपया खासगी माहिती पाठवू नका. गोपनीयता पान पाहा.",
+  q4:"मी काय पाठवू शकतो?",a4:"मजकूर, लिंक, स्क्रीनशॉट, व्हॉइस नोट आणि PDF, मराठी, हिंदी किंवा इंग्रजीत.",
+  warn:"सावध राहा: हा मेसेज",noClaim:"या मेसेजमध्ये तपासण्यासारखा कोणताही तथ्य आढळला नाही.",
+  disclaimer:"Truth_Rail मार्गदर्शक आहे, अंतिम पुरावा नाही. नेहमी स्रोत उघडून पाहा.",privacy:"गोपनीयता",counter:"फॉरवर्ड आतापर्यंत तपासले",built:"Hack On Track हॅकेथॉनसाठी एक विद्यार्थी प्रकल्प.",
+  errNet:"Truth_Rail शी संपर्क होऊ शकला नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.",errRetry:"पुन्हा प्रयत्न करा",errRec:"मायक्रोफोन वापरता आला नाही. परवानगी द्या, किंवा मेसेज टाइप करा.",
+  errBig:"फाइल खूप मोठी आहे (कमाल 15 MB).",errType:"हा फाइल प्रकार समर्थित नाही. फोटो, PDF, व्हॉइस नोट किंवा टेक्स्ट वापरा.",errEmpty:"आधी मेसेज, लिंक किंवा फाइल जोडा.",
+  errServer:"काहीतरी चुकले. कृपया पुन्हा प्रयत्न करा.",details:"तांत्रिक माहिती"}
+};
+const SPEECH = {en:"en-IN",hi:"hi-IN",mr:"mr-IN"};
+const EXT = {image:[".png",".jpg",".jpeg",".webp"], pdf:[".pdf",".txt"], voice:[".ogg",".opus",".oga",".mp3",".wav",".m4a",".aac",".flac"]};
+
+let lang = "en", mode = "text", cfg = {}, files = {image:null, voice:null, pdf:null}, rec = null, current = null, installEvent = null, busy = false, speaking = false;
+const t = k => (T[lang] && T[lang][k]) || T.en[k] || k;
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const NS = "http://www.w3.org/2000/svg";
+function ico(name, cls){
+  const s = document.createElementNS(NS, "svg"); s.setAttribute("class", "i" + (cls ? " " + cls : "")); s.setAttribute("aria-hidden", "true");
+  const u = document.createElementNS(NS, "use"); u.setAttribute("href", "#i-" + name); s.appendChild(u); return s;
+}
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})){
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => { if (c == null || c === false) return; e.append(c.nodeType ? c : document.createTextNode(c)); });
+  return e;
+}
+const btn = (cls, icon, label, onclick, extra) => h("button", Object.assign({class: cls, type: "button", onclick}, extra || {}), icon ? ico(icon) : null, label ? h("span", {}, label) : null);
+const labelText = l => (lang !== "en" && LOCAL[lang] && LOCAL[lang][l]) ? `${l} (${LOCAL[lang][l]})` : l;
+const extOf = n => { const m = /\.[^.]+$/.exec(n || ""); return m ? m[0].toLowerCase() : ""; };
+const kb = n => Math.max(1, Math.round(n / 1024)) + " KB";
+
+/* ---------- language, theme, text size ---------- */
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i]").forEach(e => { e.textContent = t(e.dataset.i); });
+  $("text").placeholder = t("placeholder");
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  $("legend").replaceChildren(...LABELS.map(l => { const k = KEY[l];
+    return h("div", {class:"card ans", style:`border-top-color:${COLOR[k]}`}, h("h3", {style:`color:${COLOR[k]}`}, ico(LICON[l]), h("span", {style:"color:var(--fg)"}, labelText(l))), h("p", {}, t("m_" + k))); }));
+  renderPanels(); renderHistory(); renderCounter();
+  if (current) renderResult(current, true);
+}
+function setLang(l){ lang = l; store.set("tr_lang", l); applyLang(); }
+const SIZES = [100, 115, 130];
+function setSize(i){
+  document.documentElement.style.fontSize = SIZES[i] + "%"; store.set("tr_size", i);
+  document.querySelectorAll("[data-size]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.size === i)));
+}
+function setTheme(v){
+  if (v === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", v);
+  store.set("tr_theme", v);
+  document.querySelectorAll("[data-theme-set]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.themeSet === v)));
+}
+
+/* ---------- tabs and input panels ---------- */
+function setMode(m, focus){
+  mode = m;
+  document.querySelectorAll("#tabs [role=tab]").forEach(b => {
+    const on = b.dataset.mode === m; b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1;
+    $("panel-" + b.dataset.mode).classList.toggle("hidden", !on);
+    if (on && focus) b.focus();
+  });
+  renderPanels();
+}
+function pickedCard(kind, file){
+  const lead = kind === "image" ? h("img", {src: URL.createObjectURL(file), alt: ""}) : h("span", {class:"fileic"}, ico(kind === "pdf" ? "file" : "mic"));
+  return h("div", {class:"picked"}, lead, h("div", {class:"meta"}, h("b", {}, file.name), h("small", {}, kb(file.size))),
+    h("button", {class:"rm", type:"button", "aria-label":t("remove"), onclick: () => { files[kind] = null; if (kind === "voice") $("fileAudio").value = ""; renderPanels(); }}, ico("x")));
+}
+function dropZone(kind, iconName, text, input){
+  const z = h("div", {class:"drop"}, h("span", {class:"big"}, ico(iconName)), h("span", {}, text),
+    btn("btn ghost sm", "upload", t("choose"), () => $(input).click()));
+  return z;
+}
+function renderPanels(){
+  const img = $("panel-image"), pdf = $("panel-pdf"), voice = $("panel-voice");
+  img.replaceChildren(files.image ? pickedCard("image", files.image) : dropZone("image", "image", t("dzImage"), "fileImage"));
+  pdf.replaceChildren(files.pdf ? pickedCard("pdf", files.pdf) : dropZone("pdf", "file", t("dzPdf"), "filePdf"));
+  const v = h("div", {class:"voice"});
+  if (rec){
+    v.append(h("button", {class:"mic on", type:"button", "aria-label":t("stop"), onclick: stopRec}, ico("stop")),
+      h("div", {class:"bars", "aria-hidden":"true"}, [1,2,3,4,5,6,7].map(() => h("span"))),
+      h("div", {class:"timer", id:"timer"}, "0:00"), h("div", {class:"hint"}, t("voiceRec")));
+  } else if (files.voice){
+    const a = h("audio", {controls:"", preload:"metadata"}); a.src = URL.createObjectURL(files.voice);
+    v.append(h("span", {class:"hint"}, t("voiceDone")), a, h("div", {class:"row", style:"justify-content:center"},
+      btn("btn ghost sm", "mic", t("reRecord"), startRec), btn("btn ghost sm", "x", t("remove"), () => { files.voice = null; renderPanels(); })));
+  } else {
+    v.append(h("button", {class:"mic", type:"button", "aria-label":t("tabVoice"), onclick: startRec}, ico("mic")),
+      h("div", {class:"hint"}, t("voiceIdle")),
+      h("button", {class:"btn ghost sm", type:"button", onclick: () => $("fileAudio").click()}, ico("upload"), h("span", {}, t("orUpload"))));
+  }
+  voice.replaceChildren(v);
+}
+function attach(file, forceKind){
+  if (!file) return false;
+  const ext = extOf(file.name), type = file.type || "";
+  let kind = forceKind;
+  if (!kind){
+    if (type.startsWith("image/") || EXT.image.includes(ext)) kind = "image";
+    else if (type.startsWith("audio/") || EXT.voice.includes(ext)) kind = "voice";
+    else if (type === "application/pdf" || EXT.pdf.includes(ext)) kind = "pdf";
+  }
+  if (!kind || (!EXT[kind].includes(ext) && !type.startsWith(kind === "voice" ? "audio/" : "image/") && type !== "application/pdf")){ showError(t("errType")); return false; }
+  if (file.size > 15 * 1024 * 1024){ showError(t("errBig")); return false; }
+  if (!EXT[kind].includes(ext)){   // pasted images or odd audio often come without a useful name
+    const guess = kind === "image" ? (type === "image/png" ? ".png" : type === "image/webp" ? ".webp" : ".jpg") : kind === "voice" ? ".m4a" : ".pdf";
+    file = new File([file], "upload" + guess, {type});
+  }
+  files[kind] = file; $("result").replaceChildren(); setMode(kind); return true;
+}
+
+/* ---------- voice recording (WAV: works on every browser) ---------- */
+function encodeWav(samples, rate){
+  const buf = new ArrayBuffer(44 + samples.length * 2), v = new DataView(buf);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, "RIFF"); v.setUint32(4, 36 + samples.length * 2, true); w(8, "WAVE"); w(12, "fmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  w(36, "data"); v.setUint32(40, samples.length * 2, true);
+  for (let i = 0; i < samples.length; i++){ const s = Math.max(-1, Math.min(1, samples[i])); v.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7fff, true); }
+  return new Blob([buf], {type:"audio/wav"});
+}
+function downsample(data, from, to){
+  if (from <= to) return data;
+  const ratio = from / to, out = new Float32Array(Math.floor(data.length / ratio));
+  for (let i = 0; i < out.length; i++){
+    const a = Math.floor(i * ratio), b = Math.min(data.length, Math.floor((i + 1) * ratio)); let sum = 0;
+    for (let j = a; j < b; j++) sum += data[j];
+    out[i] = sum / Math.max(1, b - a);
+  }
+  return out;
+}
+async function startRec(){
+  if (rec) return;
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    const Ctx = window.AudioContext || window.webkitAudioContext, ctx = new Ctx();
+    const src = ctx.createMediaStreamSource(stream), proc = ctx.createScriptProcessor(4096, 1, 1), chunks = [];
+    proc.onaudioprocess = e => chunks.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+    src.connect(proc); proc.connect(ctx.destination);
+    files.voice = null;
+    rec = {stream, ctx, src, proc, chunks, start: Date.now(), timer: setInterval(tickRec, 250)};
+    setMode("voice"); tickRec();
+  } catch(e){ rec = null; renderPanels(); showError(t("errRec")); }
+}
+function tickRec(){
+  if (!rec) return;
+  const s = Math.floor((Date.now() - rec.start) / 1000), el = $("timer");
+  if (el) el.textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  if (s >= 60) stopRec();
+}
+function stopRec(){
+  if (!rec) return;
+  const r = rec; rec = null; clearInterval(r.timer);
+  r.proc.disconnect(); r.src.disconnect(); r.stream.getTracks().forEach(x => x.stop());
+  const rate = r.ctx.sampleRate; r.ctx.close();
+  let len = 0; r.chunks.forEach(c => len += c.length);
+  const all = new Float32Array(len); let o = 0; r.chunks.forEach(c => { all.set(c, o); o += c.length; });
+  if (len >= rate * 0.5){
+    const blob = encodeWav(downsample(all, rate, 16000), Math.min(rate, 16000));
+    files.voice = new File([blob], "voice.wav", {type:"audio/wav"});
+  }
+  renderPanels();
+}
+
+/* ---------- errors and progress ---------- */
+function showError(msg, opts){
+  opts = opts || {};
+  const body = h("div", {}, h("div", {}, msg),
+    opts.retry ? h("div", {style:"margin-top:10px"}, btn("btn ghost sm", "refresh", t("errRetry"), submit)) : null,
+    opts.detail ? h("details", {}, h("summary", {}, t("details")), h("pre", {}, opts.detail)) : null);
+  $("result").replaceChildren(h("div", {class:"err", role:"alert"}, ico("alert"), body));
+  $("result").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+function startProgress(){
+  const names = ["step1","step2","step3"]; let i = 0;
+  const box = h("div", {class:"card progress", id:"prog"}); $("result").replaceChildren(box);
+  const draw = () => $("prog").replaceChildren(...names.map((n, k) => h("div", {class: k < i ? "done" : k === i ? "on" : ""},
+    k < i ? ico("check-circle") : k === i ? h("span", {class:"spin"}) : h("span", {style:"width:1.25em;display:inline-block;text-align:center"}, "·"), t(n))),
+    h("div", {class:"skel", style:"width:90%"}), h("div", {class:"skel", style:"width:70%"}));
+  draw(); const timer = setInterval(() => { if (i < 2){ i++; draw(); } }, 4500);
+  $("result").scrollIntoView({behavior:"smooth", block:"nearest"});
+  return () => clearInterval(timer);
+}
+
+/* ---------- submit ---------- */
+async function submit(){
+  if (busy) return;
+  if (rec) stopRec();
+  const text = $("text").value.trim(), file = mode === "text" ? null : files[mode];
+  if ((mode === "text" && !text) || (mode !== "text" && !file)) return showError(t("errEmpty"));
+  busy = true; $("go").disabled = true; stopSpeech();
+  const stop = startProgress();
+  const fd = new FormData(); fd.append("text", mode === "text" ? text : ""); if (file) fd.append("file", file, file.name);
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 90000);
+  try{
+    const r = await fetch("/api/check", {method:"POST", body:fd, signal:ctl.signal});
+    const data = await r.json().catch(() => null);
+    if (!r.ok || !data || !data.result) return showError((data && data.error) || (r.status >= 500 ? t("errServer") : t("errNet")),
+      {retry: !data || r.status >= 500, detail: data && data.detail});
+    current = data; pushHistory(data); renderResult(data); loadStats();
+  } catch(e){ showError(t("errNet"), {retry: true}); }
+  finally { clearTimeout(to); stop(); busy = false; $("go").disabled = false; }
+}
+
+/* ---------- result ---------- */
+function summaryText(data){
+  const res = data.result, c = res.claims[0];
+  if (!c) return "";
+  const src = c.sources[0] ? "\n" + c.sources[0].url : "";
+  return `Truth_Rail: ${t("v_" + KEY[res.overall])}\n${c.claim}\n${c.reason}${src}\n\n${location.origin}`;
+}
+function stopSpeech(){ if ("speechSynthesis" in window) speechSynthesis.cancel(); speaking = false; }
+function speak(data, b){
+  const label = b.lastChild;
+  if (speaking){ stopSpeech(); label.textContent = t("listen"); return; }
+  const res = data.result, parts = res.claims.slice(0, 2).map(c => (LOCAL[lang] && LOCAL[lang][c.label] ? LOCAL[lang][c.label] : c.label) + ". " + c.reason);
+  const u = new SpeechSynthesisUtterance(parts.join(" ")); u.lang = SPEECH[res.language] || SPEECH[lang] || "en-IN";
+  u.onend = u.onerror = () => { speaking = false; label.textContent = t("listen"); };
+  speaking = true; label.textContent = t("stopListen"); speechSynthesis.speak(u);
+}
+function renderResult(data, quiet){
+  const res = data.result, box = $("result"), kids = [];
+  if (!res.claims.length){
+    kids.push(h("div", {class:"card", style:"padding:18px;display:flex;gap:12px;align-items:center"}, ico("help"), t("noClaim")));
+  } else {
+    const k = KEY[res.overall];
+    kids.push(h("div", {class:"banner b-" + k, tabindex:"-1", id:"verdict"}, h("span", {class:"ring"}, ico(LICON[res.overall])),
+      h("div", {}, h("h2", {}, t("v_" + k)), h("p", {}, labelText(res.overall)))));
+    res.claims.forEach(c => { const ck = KEY[c.label];
+      kids.push(h("div", {class:"card claim c-" + ck},
+        h("p", {class:"lab t-" + ck}, ico(LICON[c.label]), labelText(c.label)),
+        h("p", {class:"q"}, c.claim), h("p", {class:"why"}, c.reason),
+        c.sources.length ? h("div", {class:"srcs", "aria-label":t("sources")}, c.sources.map(s => { let host = s.url; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch(e){}
+          return h("a", {class:"src", href:s.url, target:"_blank", rel:"noopener noreferrer"}, ico("link"), h("span", {}, host), ico("external")); })) : null)); });
+    if (res.manipulation_flags.length){
+      const fl = FLAGS[lang] || FLAGS.en;
+      kids.push(h("div", {class:"warn", role:"note"}, ico("flag"), h("div", {}, t("warn") + " " + res.manipulation_flags.map(f => fl[f]).filter(Boolean).join("; ") + ".")));
+    }
+    const acts = h("div", {class:"actions"});
+    if ("speechSynthesis" in window){ const b = btn("btn ghost sm", "volume", t("listen"), () => speak(data, b)); acts.append(b); }
+    acts.append(h("a", {class:"btn ghost sm", href:"https://wa.me/?text=" + encodeURIComponent(summaryText(data)), target:"_blank", rel:"noopener noreferrer"}, ico("share"), h("span", {}, t("share"))));
+    const cp = btn("btn ghost sm", "copy", t("copy"), async () => { try { await navigator.clipboard.writeText(summaryText(data)); cp.lastChild.textContent = t("copied"); setTimeout(() => cp.lastChild.textContent = t("copy"), 1500); } catch(e){} });
+    acts.append(cp, btn("btn ghost sm", "plus", t("checkAnother"), () => { $("text").value = ""; files = {image:null, voice:null, pdf:null}; renderPanels(); $("result").replaceChildren(); current = null; setMode("text"); $("checker").scrollIntoView({behavior:"smooth"}); $("text").focus(); }));
+    kids.push(acts);
+    const fb = h("div", {class:"fb"}, t("helpful"));
+    const send = r => { fetch("/api/feedback", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({rating:r, label:res.overall, kind:data.kind})}).catch(() => {}); fb.replaceChildren(ico("check-circle"), t("thanks")); };
+    fb.append(btn("btn ghost sm", "thumb-up", t("yes"), () => send("up")), btn("btn ghost sm", "thumb-down", t("no"), () => send("down")));
+    kids.push(fb, h("p", {class:"meta-line"}, res.cached ? t("cachedYes") : t("cachedNo")));
+  }
+  box.replaceChildren(...kids);
+  if (!quiet){ box.scrollIntoView({behavior:"smooth", block:"start"}); const v = $("verdict"); if (v) v.focus({preventScroll:true}); }
+}
+
+/* ---------- history, stats, config ---------- */
+function pushHistory(data){
+  if (!data.result.claims.length) return;
+  const list = store.get("tr_hist", []);
+  list.unshift({ts:Date.now(), overall:data.result.overall, preview:data.result.claims[0].claim, data});
+  store.set("tr_hist", list.slice(0, 10)); renderHistory();
+}
+function renderHistory(){
+  const list = store.get("tr_hist", []);
+  $("histSec").classList.toggle("hidden", !list.length);
+  $("hist").replaceChildren(...list.map(e => h("button", {type:"button", onclick: () => { current = e.data; renderResult(e.data); }},
+    h("span", {style:`color:${COLOR[KEY[e.overall]]};display:inline-flex`}, ico(LICON[e.overall])), h("span", {class:"t"}, e.preview),
+    h("small", {}, new Date(e.ts).toLocaleDateString(undefined, {day:"numeric", month:"short"})))));
+}
+async function loadStats(){ try{ const s = await (await fetch("/api/stats")).json(); store.set("tr_checks", s.checks); renderCounter(); } catch(e){} }
+function renderCounter(){ const n = store.get("tr_checks", 0); $("counter").textContent = n > 0 ? "  |  " + n.toLocaleString() + " " + t("counter") : ""; }
+async function loadConfig(){
+  try{
+    cfg = await (await fetch("/api/config")).json();
+    $("notice").classList.toggle("hidden", cfg.llm_ready !== false);
+    const on = !!cfg.whatsapp_url;
+    $("waBtn").classList.toggle("hidden", !on); $("navWa").classList.toggle("hidden", !on); $("qrBox").classList.toggle("hidden", !on); $("waOff").classList.toggle("hidden", on);
+    if (on){ $("waBtn").href = cfg.whatsapp_url; $("navWa").href = cfg.whatsapp_url; $("qr").src = "/qr.svg"; }
+  } catch(e){ $("waOff").classList.remove("hidden"); }
+}
+
+/* ---------- wiring ---------- */
+document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => setLang(b.dataset.lang));
+document.querySelectorAll("[data-size]").forEach(b => b.onclick = () => setSize(+b.dataset.size));
+document.querySelectorAll("[data-theme-set]").forEach(b => b.onclick = () => setTheme(b.dataset.themeSet));
+document.querySelectorAll("#tabs [role=tab]").forEach(b => {
+  b.onclick = () => setMode(b.dataset.mode);
+  b.onkeydown = e => { const tabs = [...document.querySelectorAll("#tabs [role=tab]")], i = tabs.indexOf(b);
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft"){ e.preventDefault(); setMode(tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length].dataset.mode, true); } };
+});
+document.querySelectorAll("[data-ex]").forEach(b => b.onclick = () => { setMode("text"); $("text").value = b.dataset.ex; $("text").focus(); });
+$("fileImage").onchange = e => { attach(e.target.files[0], "image"); e.target.value = ""; };
+$("filePdf").onchange = async e => { const f = e.target.files[0]; e.target.value = "";
+  if (f && extOf(f.name) === ".txt"){ try { $("text").value = (await f.text()).slice(0, 6000); setMode("text"); return; } catch(_){} }
+  attach(f, "pdf"); };
+$("fileAudio").onchange = e => { attach(e.target.files[0], "voice"); e.target.value = ""; };
+$("go").onclick = submit;
+$("clearHist").onclick = () => { store.set("tr_hist", []); renderHistory(); };
+$("text").addEventListener("keydown", e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) submit(); });
+document.addEventListener("paste", e => { const f = [...(e.clipboardData?.files || [])][0]; if (f && f.type.startsWith("image/")){ e.preventDefault(); attach(f, "image"); } });
+const card = $("checker");
+["dragenter","dragover"].forEach(ev => card.addEventListener(ev, e => { e.preventDefault(); card.classList.add("over"); }));
+["dragleave","drop"].forEach(ev => card.addEventListener(ev, e => { e.preventDefault(); card.classList.remove("over"); }));
+card.addEventListener("drop", e => attach(e.dataTransfer.files[0]));
+$("menuBtn").onclick = e => { e.stopPropagation(); const open = $("menu").classList.toggle("hidden") === false; $("menuBtn").setAttribute("aria-expanded", String(open)); };
+document.addEventListener("click", e => { if (!$("menu").contains(e.target) && e.target !== $("menuBtn")){ $("menu").classList.add("hidden"); $("menuBtn").setAttribute("aria-expanded", "false"); } });
+document.addEventListener("keydown", e => { if (e.key === "Escape"){ $("menu").classList.add("hidden"); $("menuBtn").setAttribute("aria-expanded", "false"); } });
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvent = e; $("installBtn").classList.remove("hidden"); });
+$("installBtn").onclick = async () => { if (!installEvent) return; installEvent.prompt(); await installEvent.userChoice; installEvent = null; $("installBtn").classList.add("hidden"); };
+if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && (window.AudioContext || window.webkitAudioContext))) $("tab-voice").classList.add("hidden");
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+
+const saved = store.get("tr_lang", null), nav = (navigator.language || "en").slice(0, 2);
+lang = saved || (T[nav] ? nav : "en");
+setSize(store.get("tr_size", 0)); setTheme(store.get("tr_theme", "auto")); applyLang(); loadConfig(); loadStats();
+</script>
+</body>
+</html>

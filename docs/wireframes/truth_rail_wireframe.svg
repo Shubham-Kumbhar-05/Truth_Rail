@@ -1,0 +1,314 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 1240" width="1240" height="1240" font-family="system-ui, Segoe UI, Arial, sans-serif">
+<rect width="1240" height="1240" fill="#faf9f5"/>
+<text x="30" y="36" font-size="20" fill="#2c2c2a" font-weight="800" text-anchor="start">Truth_Rail website wireframe</text>
+<text x="30" y="54" font-size="10.5" fill="#9a98a0" font-weight="400" text-anchor="start">Low-fidelity layout. Grey boxes are content, the purple button is the one primary action, the dashed box is where the result appears.</text>
+<text x="410" y="92" font-size="11" fill="#3c3489" font-weight="700" text-anchor="middle">LAPTOP  (1020 px and wider): two columns</text>
+<rect x="30" y="110" width="760" height="900" rx="12" fill="#fff" stroke="#8d8a96" stroke-width="1.5"/>
+<rect x="30" y="110" width="760" height="44" rx="12" fill="#f3f2f7" stroke="none" stroke-width="1"/>
+<rect x="30" y="154" width="760" height="1" rx="0" fill="#c9c7d0" stroke="none" stroke-width="1"/>
+<rect x="44" y="122" width="20" height="20" rx="5" fill="#3c3489" stroke="none" stroke-width="1"/>
+<rect x="70" y="128" width="60" height="8" rx="3" fill="#3c3489" stroke="none" stroke-width="1"/>
+<text x="160" y="136" font-size="9" fill="#9a98a0" font-weight="400" text-anchor="start">Check</text>
+<text x="200" y="136" font-size="9" fill="#9a98a0" font-weight="400" text-anchor="start">How it works</text>
+<text x="278" y="136" font-size="9" fill="#9a98a0" font-weight="400" text-anchor="start">Answers</text>
+<text x="336" y="136" font-size="9" fill="#9a98a0" font-weight="400" text-anchor="start">WhatsApp</text>
+<text x="406" y="136" font-size="9" fill="#9a98a0" font-weight="400" text-anchor="start">FAQ</text>
+<rect x="530" y="120" width="74" height="24" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<text x="567" y="136" font-size="9" fill="#2c2c2a" font-weight="600" text-anchor="middle">EN  हिं  मरा</text>
+<circle cx="620" cy="132" r="12" fill="#fff" stroke="#c9c7d0"/>
+<text x="620" y="136" font-size="12" fill="#9a98a0" font-weight="700" text-anchor="middle">≡</text>
+<rect x="642" y="120" width="130" height="24" rx="8" fill="#12805f" stroke="none" stroke-width="1"/>
+<text x="707" y="136" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">Open WhatsApp</text>
+<circle cx="38" cy="122" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="38" y="125.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+<rect x="60" y="174" width="190" height="18" rx="9" fill="#eeedfe" stroke="none" stroke-width="1"/>
+<text x="155" y="187" font-size="8.5" fill="#3c3489" font-weight="600" text-anchor="middle">Free · No sign-up · 3 languages</text>
+<rect x="60" y="206" width="300" height="18" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="60" y="232" width="270" height="18" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="60" y="258" width="110" height="18" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="60" y="294" width="320" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="60" y="306" width="300" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="60" y="318" width="190" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="60" y="342" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="86" y="355" font-size="10" fill="#2c2c2a" font-weight="600" text-anchor="start">Trusted sources only</text>
+<rect x="60" y="370" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="86" y="383" font-size="10" fill="#2c2c2a" font-weight="600" text-anchor="start">Every answer shows its sources</text>
+<rect x="60" y="398" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="86" y="411" font-size="10" fill="#2c2c2a" font-weight="600" text-anchor="start">No account, no ads</text>
+<rect x="60" y="432" width="300" height="96" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="74" y="444" width="70" height="16" rx="8" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="292" y="444" width="54" height="16" rx="8" fill="#fdeee8" stroke="#c9441c" stroke-width="1"/>
+<rect x="74" y="474" width="190" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="74" y="492" width="250" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="74" y="504" width="200" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<circle cx="52" cy="180" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="183.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">2</text>
+<rect x="430" y="174" width="340" height="270" rx="14" fill="#fff" stroke="#8d8a96" stroke-width="1.3"/>
+<rect x="446" y="190" width="110" height="9" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="446" y="210" width="308" height="30" rx="10" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="449" y="213" width="74" height="24" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="455" y="219" width="12" height="12" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="472" y="229" font-size="8.5" fill="#3c3489" font-weight="700" text-anchor="start">Message</text>
+<rect x="532" y="219" width="12" height="12" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="549" y="229" font-size="8.5" fill="#9a98a0" font-weight="500" text-anchor="start">Screenshot</text>
+<rect x="609" y="219" width="12" height="12" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="626" y="229" font-size="8.5" fill="#9a98a0" font-weight="500" text-anchor="start">Voice</text>
+<rect x="686" y="219" width="12" height="12" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="703" y="229" font-size="8.5" fill="#9a98a0" font-weight="500" text-anchor="start">PDF</text>
+<rect x="446" y="252" width="308" height="96" rx="10" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="458" y="266" width="160" height="7" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="458" y="280" width="120" height="7" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<text x="600" y="338" font-size="7.5" fill="#9a98a0" font-weight="400" text-anchor="middle">other tabs: drop zone / mic button / file</text>
+<rect x="446" y="360" width="308" height="32" rx="10" fill="#3c3489" stroke="none" stroke-width="1"/>
+<text x="600" y="380" font-size="11" fill="#fff" font-weight="700" text-anchor="middle">Check it</text>
+<text x="600" y="408" font-size="8" fill="#9a98a0" font-weight="400" text-anchor="middle">Usually takes 10 to 20 seconds</text>
+<rect x="446" y="420" width="78" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="530" y="420" width="92" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="628" y="420" width="98" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="438" cy="180" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="438" y="183.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+<rect x="430" y="456" width="340" height="170" rx="14" fill="none" stroke="#3c3489" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="442" y="470" font-size="7.5" fill="#3c3489" font-weight="700" text-anchor="start">RESULT appears here after Check</text>
+<rect x="440" y="478" width="320" height="36" rx="10" fill="#fdeee8" stroke="#c9441c" stroke-width="1"/>
+<circle cx="458" cy="496" r="11" fill="#c9441c" stroke="none"/>
+<rect x="478" y="488" width="110" height="9" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="478" y="502" width="60" height="6" rx="3" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="440" y="520" width="320" height="58" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="440" y="520" width="4" height="58" rx="2" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="454" y="530" width="80" height="7" rx="3" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="454" y="543" width="250" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="454" y="554" width="180" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="454" y="564" width="290" height="10" rx="4" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="440" y="584" width="320" height="14" rx="6" fill="#fff4e0" stroke="#f0cf9a" stroke-width="1"/>
+<rect x="440" y="604" width="56" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="502" y="604" width="56" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="564" y="604" width="56" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="626" y="604" width="80" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="422" cy="462" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="422" y="465.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<rect x="60" y="640" width="710" height="40" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<text x="72" y="655" font-size="7" fill="#9a98a0" font-weight="700" text-anchor="start">CHECKED AGAINST TRUSTED SOURCES SUCH AS</text>
+<rect x="72" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="128" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="184" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="240" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="296" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="352" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="408" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="464" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="520" y="661" width="50" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="52" cy="646" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="649.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+<text x="60" y="704" font-size="11" fill="#2c2c2a" font-weight="700" text-anchor="start">How it works</text>
+<circle cx="52" cy="700" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="703.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<rect x="60" y="714" width="226" height="54" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="72" y="724" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="98" y="728" width="90" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="72" y="748" width="190" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="72" y="758" width="150" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="302" y="714" width="226" height="54" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="314" y="724" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="340" y="728" width="90" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="314" y="748" width="190" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="314" y="758" width="150" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="544" y="714" width="226" height="54" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="556" y="724" width="18" height="18" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="582" y="728" width="90" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="556" y="748" width="190" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="556" y="758" width="150" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<text x="60" y="792" font-size="11" fill="#2c2c2a" font-weight="700" text-anchor="start">What the answers mean</text>
+<circle cx="52" cy="788" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="791.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">7</text>
+<rect x="60" y="802" width="134" height="52" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="60" y="802" width="134" height="4" rx="2" fill="#12805f" stroke="none" stroke-width="1"/>
+<circle cx="74" cy="822" r="6" fill="none" stroke="#12805f"/>
+<rect x="86" y="819" width="60" height="7" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="70" y="837" width="100" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="204" y="802" width="134" height="52" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="204" y="802" width="134" height="4" rx="2" fill="#c9441c" stroke="none" stroke-width="1"/>
+<circle cx="218" cy="822" r="6" fill="none" stroke="#c9441c"/>
+<rect x="230" y="819" width="60" height="7" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="214" y="837" width="100" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="348" y="802" width="134" height="52" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="348" y="802" width="134" height="4" rx="2" fill="#a8650d" stroke="none" stroke-width="1"/>
+<circle cx="362" cy="822" r="6" fill="none" stroke="#a8650d"/>
+<rect x="374" y="819" width="60" height="7" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="358" y="837" width="100" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="492" y="802" width="134" height="52" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="492" y="802" width="134" height="4" rx="2" fill="#2b72bd" stroke="none" stroke-width="1"/>
+<circle cx="506" cy="822" r="6" fill="none" stroke="#2b72bd"/>
+<rect x="518" y="819" width="60" height="7" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="502" y="837" width="100" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="636" y="802" width="134" height="52" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="636" y="802" width="134" height="4" rx="2" fill="#6f6e68" stroke="none" stroke-width="1"/>
+<circle cx="650" cy="822" r="6" fill="none" stroke="#6f6e68"/>
+<rect x="662" y="819" width="60" height="7" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="646" y="837" width="100" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="60" y="868" width="710" height="62" rx="14" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="52" cy="874" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="877.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">8</text>
+<rect x="76" y="882" width="180" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="76" y="896" width="280" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="76" y="906" width="240" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="76" y="914" width="100" height="12" rx="6" fill="#12805f" stroke="none" stroke-width="1"/>
+<rect x="702" y="876" width="46" height="46" rx="4" fill="#fff" stroke="#4a4852" stroke-width="1"/>
+<text x="725" y="902" font-size="9" fill="#9a98a0" font-weight="700" text-anchor="middle">QR</text>
+<text x="60" y="952" font-size="11" fill="#2c2c2a" font-weight="700" text-anchor="start">FAQ (4 questions, tap to open)</text>
+<circle cx="52" cy="948" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="951.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">9</text>
+<rect x="60" y="960" width="710" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="70" y="965" width="120" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="60" y="978" width="710" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="70" y="983" width="120" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="30" y="996" width="760" height="14" rx="8" fill="#f3f2f7" stroke="none" stroke-width="1"/>
+<circle cx="52" cy="990" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="52" y="993.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">10</text>
+<text x="990" y="92" font-size="11" fill="#3c3489" font-weight="700" text-anchor="middle">PHONE  (under 640 px): one column</text>
+<rect x="850" y="110" width="300" height="1120" rx="22" fill="#fff" stroke="#8d8a96" stroke-width="1.5"/>
+<rect x="850" y="110" width="300" height="42" rx="22" fill="#f3f2f7" stroke="none" stroke-width="1"/>
+<rect x="850" y="152" width="300" height="1" rx="0" fill="#c9c7d0" stroke="none" stroke-width="1"/>
+<rect x="862" y="121" width="20" height="20" rx="5" fill="#3c3489" stroke="none" stroke-width="1"/>
+<rect x="888" y="127" width="56" height="8" rx="3" fill="#3c3489" stroke="none" stroke-width="1"/>
+<rect x="1022" y="120" width="74" height="24" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<text x="1059" y="136" font-size="9" fill="#2c2c2a" font-weight="600" text-anchor="middle">EN  हिं  मरा</text>
+<circle cx="1122" cy="132" r="12" fill="#fff" stroke="#c9c7d0"/>
+<text x="1122" y="136" font-size="12" fill="#9a98a0" font-weight="700" text-anchor="middle">≡</text>
+<circle cx="846" cy="122" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="125.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+<rect x="864" y="164" width="170" height="16" rx="8" fill="#eeedfe" stroke="none" stroke-width="1"/>
+<text x="949" y="175" font-size="8" fill="#3c3489" font-weight="600" text-anchor="middle">Free · No sign-up · 3 languages</text>
+<rect x="864" y="190" width="250" height="15" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="864" y="211" width="190" height="15" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="864" y="238" width="260" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="864" y="249" width="250" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="864" y="260" width="150" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<circle cx="846" cy="190" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="193.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">2</text>
+<rect x="860" y="282" width="280" height="236" rx="14" fill="#fff" stroke="#8d8a96" stroke-width="1.3"/>
+<rect x="874" y="296" width="90" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="874" y="314" width="252" height="30" rx="10" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="876" y="316" width="62" height="26" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="890" y="320" width="11" height="11" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="896" y="338" font-size="6.5" fill="#3c3489" font-weight="700" text-anchor="middle">Message</text>
+<rect x="952" y="320" width="11" height="11" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="958" y="338" font-size="6.5" fill="#9a98a0" font-weight="500" text-anchor="middle">Screenshot</text>
+<rect x="1014" y="320" width="11" height="11" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="1020" y="338" font-size="6.5" fill="#9a98a0" font-weight="500" text-anchor="middle">Voice</text>
+<rect x="1076" y="320" width="11" height="11" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<text x="1082" y="338" font-size="6.5" fill="#9a98a0" font-weight="500" text-anchor="middle">PDF</text>
+<rect x="874" y="354" width="252" height="74" rx="10" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="884" y="366" width="150" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="884" y="378" width="100" height="6" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="874" y="438" width="252" height="30" rx="10" fill="#3c3489" stroke="none" stroke-width="1"/>
+<text x="1000" y="457" font-size="11" fill="#fff" font-weight="700" text-anchor="middle">Check it</text>
+<text x="1000" y="482" font-size="7.5" fill="#9a98a0" font-weight="400" text-anchor="middle">Usually takes 10 to 20 seconds</text>
+<rect x="874" y="492" width="70" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="949" y="492" width="82" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1036" y="492" width="80" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="846" cy="290" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="293.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+<rect x="860" y="530" width="280" height="160" rx="14" fill="none" stroke="#3c3489" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="870" y="544" font-size="7.5" fill="#3c3489" font-weight="700" text-anchor="start">RESULT appears here</text>
+<rect x="868" y="552" width="264" height="34" rx="10" fill="#fdeee8" stroke="#c9441c" stroke-width="1"/>
+<circle cx="884" cy="569" r="10" fill="#c9441c" stroke="none"/>
+<rect x="902" y="562" width="100" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="902" y="575" width="50" height="5" rx="3" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="868" y="592" width="264" height="52" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="592" width="4" height="52" rx="2" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="880" y="601" width="70" height="6" rx="3" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="880" y="612" width="220" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="880" y="622" width="160" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="880" y="630" width="240" height="9" rx="4" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="650" width="264" height="12" rx="6" fill="#fff4e0" stroke="#f0cf9a" stroke-width="1"/>
+<rect x="868" y="668" width="0" height="0" rx="4" fill="none" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1002" y="668" width="0" height="0" rx="4" fill="none" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="668" width="0" height="0" rx="4" fill="none" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1002" y="668" width="0" height="0" rx="4" fill="none" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="668" width="60" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="932" y="668" width="60" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="996" y="668" width="60" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1060" y="668" width="74" height="14" rx="7" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="846" cy="540" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="543.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<rect x="860" y="702" width="84" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="950" y="702" width="90" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1046" y="702" width="70" height="16" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<text x="1000" y="730" font-size="7" fill="#9a98a0" font-weight="400" text-anchor="middle">trust points (compact chips)</text>
+<rect x="860" y="742" width="280" height="44" rx="12" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="846" cy="750" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="753.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+<rect x="868" y="748" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="958" y="748" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1048" y="748" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="764" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="958" y="764" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="1048" y="764" width="82" height="12" rx="6" fill="#f3f2f7" stroke="#c9c7d0" stroke-width="1"/>
+<text x="860" y="806" font-size="9" fill="#2c2c2a" font-weight="700" text-anchor="start">How it works (stacked)</text>
+<circle cx="846" cy="802" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="805.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<rect x="860" y="814" width="280" height="28" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="820" width="14" height="14" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="890" y="822" width="100" height="6" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="890" y="832" width="200" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="848" width="280" height="28" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="854" width="14" height="14" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="890" y="856" width="100" height="6" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="890" y="866" width="200" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="882" width="280" height="28" rx="10" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="888" width="14" height="14" rx="4" fill="#e4e2ec" stroke="none" stroke-width="1"/>
+<rect x="890" y="890" width="100" height="6" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="890" y="900" width="200" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<text x="860" y="932" font-size="9" fill="#2c2c2a" font-weight="700" text-anchor="start">What the answers mean (2 columns on tablet)</text>
+<circle cx="846" cy="928" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="931.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">7</text>
+<rect x="860" y="942" width="280" height="18" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="860" y="942" width="4" height="18" rx="2" fill="#12805f" stroke="none" stroke-width="1"/>
+<rect x="874" y="948" width="90" height="5" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="980" y="948" width="140" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="964" width="280" height="18" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="860" y="964" width="4" height="18" rx="2" fill="#c9441c" stroke="none" stroke-width="1"/>
+<rect x="874" y="970" width="90" height="5" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="980" y="970" width="140" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="986" width="280" height="18" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="860" y="986" width="4" height="18" rx="2" fill="#a8650d" stroke="none" stroke-width="1"/>
+<rect x="874" y="992" width="90" height="5" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="980" y="992" width="140" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="1008" width="280" height="18" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="860" y="1008" width="4" height="18" rx="2" fill="#2b72bd" stroke="none" stroke-width="1"/>
+<rect x="874" y="1014" width="90" height="5" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="980" y="1014" width="140" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="1030" width="280" height="18" rx="8" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="860" y="1030" width="4" height="18" rx="2" fill="#6f6e68" stroke="none" stroke-width="1"/>
+<rect x="874" y="1036" width="90" height="5" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="980" y="1036" width="140" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="1060" width="280" height="70" rx="14" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<circle cx="846" cy="1066" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="1069.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">8</text>
+<rect x="872" y="1072" width="160" height="8" rx="3" fill="#4a4852" stroke="none" stroke-width="1"/>
+<rect x="872" y="1086" width="230" height="5" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="872" y="1100" width="256" height="22" rx="8" fill="#12805f" stroke="none" stroke-width="1"/>
+<text x="1000" y="1115" font-size="8" fill="#fff" font-weight="700" text-anchor="middle">Open WhatsApp (QR hidden on phones)</text>
+<text x="860" y="1154" font-size="9" fill="#2c2c2a" font-weight="700" text-anchor="start">FAQ (tap to open)</text>
+<circle cx="846" cy="1150" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="1153.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">9</text>
+<rect x="860" y="1162" width="280" height="12" rx="6" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="1166" width="100" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="1178" width="280" height="12" rx="6" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="1182" width="100" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="860" y="1194" width="280" height="12" rx="6" fill="#fff" stroke="#c9c7d0" stroke-width="1"/>
+<rect x="868" y="1198" width="100" height="4" rx="3" fill="#cfcdd6" stroke="none" stroke-width="1"/>
+<rect x="850" y="1214" width="300" height="16" rx="10" fill="#f3f2f7" stroke="none" stroke-width="1"/>
+<circle cx="846" cy="1206" r="9" fill="#3c3489" stroke="#3c3489"/>
+<text x="846" y="1209.5" font-size="10" fill="#fff" font-weight="700" text-anchor="middle">10</text>
+<text x="30" y="1050" font-size="12" fill="#2c2c2a" font-weight="800" text-anchor="start">Sections</text>
+<text x="30" y="1072" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">1  Header: logo, page links, language, settings (text size, theme, install), WhatsApp button</text>
+<text x="30" y="1091" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">2  Hero copy: promise, 3 trust points, example answer (laptop only)</text>
+<text x="30" y="1110" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">3  Checker: four tabs (Message, Screenshot, Voice, PDF), one big Check it button, example chips</text>
+<text x="30" y="1129" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">4  Result: verdict banner, claim cards with sources, warning, Listen / Share / Copy / Check another, feedback</text>
+<text x="30" y="1148" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">5  Trusted-source strip (phone: trust chips just under the checker)</text>
+<text x="30" y="1167" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">6  How it works, 3 steps (3 columns on laptop, stacked on phone)</text>
+<text x="30" y="1186" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">7  Answer guide, the 5 labels (5 / 2 / 1 columns)</text>
+<text x="30" y="1205" font-size="10.5" fill="#2c2c2a" font-weight="400" text-anchor="start">8  WhatsApp card with QR code and button      9  FAQ, 4 questions      10  Footer: privacy, disclaimer</text>
+<text x="30" y="1234" font-size="9.5" fill="#9a98a0" font-weight="400" text-anchor="start">Breakpoints: 1020+ two columns | 920+ page links in header | 800+ three-column steps | 640+ tabs show icon and label side by side | under 420 compact tabs</text>
+</svg>

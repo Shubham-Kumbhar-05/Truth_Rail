@@ -1,0 +1,1 @@
+playwright>=1.40   # only for tests/e2e_ui.py (then: playwright install chromium)

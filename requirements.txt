@@ -1,0 +1,11 @@
+requests>=2.31
+python-dotenv>=1.0
+ddgs>=9.0
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+pypdf>=4.0
+trafilatura>=1.8
+gTTS>=2.5
+httpx>=0.27
+segno>=1.5            # QR codes

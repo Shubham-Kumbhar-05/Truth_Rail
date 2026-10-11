@@ -1,0 +1,5 @@
+.env
+*.db
+voice_cache/
+__pycache__/
+*.pyc

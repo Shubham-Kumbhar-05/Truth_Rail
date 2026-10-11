@@ -1,0 +1,30 @@
+# One-click setup on Render: New > Blueprint > pick this repository.
+services:
+  - type: web
+    name: truth-rail
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PUBLIC_BASE_URL        # set to your https://....onrender.com address after the first deploy
+        sync: false
+      - key: GEMINI_API_KEYS
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        value: whatsapp:+14155238886
+      - key: WHATSAPP_NUMBER
+        value: "14155238886"
+      - key: WHATSAPP_JOIN_TEXT
+        sync: false                 # for the Twilio sandbox: "join your-two-words"

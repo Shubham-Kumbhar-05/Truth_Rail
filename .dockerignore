@@ -1,0 +1,7 @@
+.env
+*.db
+voice_cache/
+ui_screenshots/
+__pycache__/
+*.pyc
+.git
