@@ -17,7 +17,7 @@ def gtts_tts(text, lang, path):
 
 class VoiceStore:
     def __init__(self, directory=None, tts=None, now=None, max_age=3600):
-        self.dir = directory or config.VOICE_DIR
+        self.dir = directory or os.getenv( "VOICE_CACHE_DIR", "/tmp/voice_cache" )
         self._tts = tts or gtts_tts
         self._now = now or time.time
         self.max_age = max_age
